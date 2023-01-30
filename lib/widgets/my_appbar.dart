@@ -1,4 +1,4 @@
-import 'package:demo/constants.dart';
+import 'package:demo/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {

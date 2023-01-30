@@ -1,8 +1,8 @@
-import 'package:demo/cart_items.dart';
+import 'package:demo/widgets/cart_items.dart';
 import 'package:flutter/material.dart';
 
-import 'my_appbar.dart';
-import 'pay_button.dart';
+import '../widgets/my_appbar.dart';
+import '../widgets/pay_button.dart';
 
 class Cart extends StatelessWidget {
   const Cart({super.key});
@@ -13,7 +13,7 @@ class Cart extends StatelessWidget {
       backgroundColor: Colors.blueGrey[600],
       body: Stack(children: [
         const MyAppBar(),
-        const CartItemListWidget(),
+        const CartItemListStatefulWidget(),
         Align(
           alignment: Alignment.bottomCenter,
           child: PayButton(
