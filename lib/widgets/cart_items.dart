@@ -1,67 +1,19 @@
 import 'package:demo/network/network_client.dart';
+import 'package:demo/providers/cart_provider.dart';
 import 'package:demo/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../models/cart_item.dart';
 
-class CartItemListWidget extends StatelessWidget {
-  const CartItemListWidget({
-    Key? key,
-  }) : super(key: key);
+class CartItemListWidget extends StatefulWidget {
+  const CartItemListWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: kMyAppBarHeight),
-      decoration: BoxDecoration(
-        color: Colors.blueGrey[900],
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
-        ),
-      ),
-      child: FutureBuilder(
-        future: NetworkClient().getCartItems(),
-        builder: (context, snapshot) {
-          if (snapshot.data == null) {
-            return const Center(
-              child: CircularProgressIndicator(color: Colors.white),
-            );
-          }
-
-          final cartItems = snapshot.data!;
-
-          if (cartItems.isEmpty) {
-            return const Center(
-              child: Text(
-                'No Data Found',
-                style: TextStyle(color: Colors.grey),
-              ),
-            );
-          }
-          return ListView.builder(
-            itemBuilder: (context, index) {
-              return CartItemWidget(item: cartItems[index]);
-            },
-            itemCount: cartItems.length,
-          );
-        },
-      ),
-    );
-  }
+  State<CartItemListWidget> createState() => _CartItemListWidgetState();
 }
 
-class CartItemListStatefulWidget extends StatefulWidget {
-  const CartItemListStatefulWidget({super.key});
-
-  @override
-  State<CartItemListStatefulWidget> createState() =>
-      _CartItemListStatefulWidgetState();
-}
-
-class _CartItemListStatefulWidgetState
-    extends State<CartItemListStatefulWidget> {
-  List<CartItem>? cartItems;
+class _CartItemListWidgetState extends State<CartItemListWidget> {
+  final CartProvider cartProvider = CartProvider();
 
   @override
   void initState() {
@@ -71,19 +23,11 @@ class _CartItemListStatefulWidgetState
 
   Future<void> getCartItems() async {
     final items = await NetworkClient().getCartItems();
-    setState(() {
-      cartItems = items.take(3).toList();
-    });
+    cartProvider.addCartItems(items);
   }
 
-  Widget buildCartList() {
-    if (cartItems == null) {
-      return const Center(
-        child: CircularProgressIndicator(color: Colors.white),
-      );
-    }
-
-    if (cartItems!.isEmpty) {
+  Widget buildCartList(List<CartItem> cartItems) {
+    if (cartItems.isEmpty) {
       return const Center(
         child: Text(
           'No Data Found',
@@ -93,9 +37,9 @@ class _CartItemListStatefulWidgetState
     }
     return ListView.builder(
       itemBuilder: (context, index) {
-        return CartItemWidget(item: cartItems![index]);
+        return CartItemWidget(item: cartItems[index]);
       },
-      itemCount: cartItems!.length,
+      itemCount: cartItems.length,
     );
   }
 
@@ -110,7 +54,17 @@ class _CartItemListStatefulWidgetState
           topRight: Radius.circular(24),
         ),
       ),
-      child: buildCartList(),
+      child: StreamBuilder(
+        stream: cartProvider.stream,
+        builder: (context, snapshot) {
+          if (snapshot.data == null) {
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.white),
+            );
+          }
+          return buildCartList(snapshot.data!);
+        },
+      ),
     );
   }
 }

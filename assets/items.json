@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Apple Juice",
+    "description": "Lorem ipsum dolor sit emet",
+    "price": "$8.65",
+    "quantity": 1
+  },
+  {
+    "name": "Pineapple Juice",
+    "description": "Lorem ipsum dolor sit emet",
+    "price": "$9.65",
+    "quantity": 1
+  }
+]

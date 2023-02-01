@@ -1,3 +1,5 @@
+import 'package:demo/models/cart_item.dart';
+import 'package:demo/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 
 class PayButton extends StatelessWidget {
@@ -27,12 +29,28 @@ class PayButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                '\$28.04',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
+            children: [
+              StreamBuilder<List<CartItem>>(
+                  stream: CartProvider().stream,
+                  builder: (context, snapshot) {
+                    final String value;
+
+                    if (snapshot.data == null) {
+                      value = '-';
+                    } else {
+                      value =
+                          snapshot.data!.fold(0.0, (previousValue, element) {
+                        return previousValue +
+                            double.parse(element.price.replaceFirst('\$', ''));
+                      }).toStringAsFixed(2);
+                    }
+
+                    return Text(
+                      "\$$value",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    );
+                  }),
+              const Text(
                 'PAY',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),

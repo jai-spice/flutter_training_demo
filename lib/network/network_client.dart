@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:demo/models/cart_item.dart';
+import 'package:flutter/services.dart';
 
 class NetworkClient {
   static final NetworkClient _instance = NetworkClient._internal();
@@ -6,80 +9,14 @@ class NetworkClient {
   factory NetworkClient() => _instance;
 
   Future<List<CartItem>> getCartItems() async {
-    await Future.delayed(const Duration(seconds: 3));
-    return const [
-      CartItem(
-        name: 'Apple Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$8.65',
-        quantity: 1,
-      ),
-      CartItem(
-        name: 'Pineapple Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$9.65',
-        quantity: 1,
-      ),
-      CartItem(
-        name: 'Carrot Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$5.65',
-        quantity: 1,
-      ),
-      CartItem(
-        name: 'Pomegranate Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$12.65',
-        quantity: 1,
-      ),
-      CartItem(
-        name: 'Apple Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$8.65',
-        quantity: 1,
-      ),
-      CartItem(
-        name: 'Pineapple Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$9.65',
-        quantity: 1,
-      ),
-      CartItem(
-        name: 'Carrot Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$5.65',
-        quantity: 1,
-      ),
-      CartItem(
-        name: 'Pomegranate Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$12.65',
-        quantity: 1,
-      ),
-      CartItem(
-        name: 'Apple Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$8.65',
-        quantity: 1,
-      ),
-      CartItem(
-        name: 'Pineapple Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$9.65',
-        quantity: 1,
-      ),
-      CartItem(
-        name: 'Carrot Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$5.65',
-        quantity: 1,
-      ),
-      CartItem(
-        name: 'Pomegranate Juice',
-        description: 'Lorem ipsum dolor sit emet',
-        price: '\$12.65',
-        quantity: 1,
-      ),
-    ];
+    try {
+      final String jsonString = await rootBundle
+          .loadString('assets/items.json'); // Getting data from API
+      final List itemList = jsonDecode(jsonString)
+          as List; // jsonDecode gives a dynamic output, it is upto us to determine whether it is a list or a single object.
+      return itemList.map((json) => CartItem.fromJson(json)).toList();
+    } catch (e) {
+      return [];
+    }
   }
 }

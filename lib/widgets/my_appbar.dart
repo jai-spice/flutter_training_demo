@@ -1,4 +1,5 @@
 import 'package:demo/utils/constants.dart';
+import 'package:demo/widgets/cart_counter.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {
@@ -31,6 +32,10 @@ class MyAppBar extends StatelessWidget {
               ),
             ),
           ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: CartCounter(),
+          )
         ],
       ),
     );
