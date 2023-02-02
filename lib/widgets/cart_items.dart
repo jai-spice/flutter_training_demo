@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:demo/network/network_client.dart';
-import 'package:demo/providers/cart_provider.dart';
+import 'package:demo/bloc/cart_bloc.dart';
 import 'package:demo/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -13,17 +15,17 @@ class CartItemListWidget extends StatefulWidget {
 }
 
 class _CartItemListWidgetState extends State<CartItemListWidget> {
-  final CartProvider cartProvider = CartProvider();
+  final CartBloc cartProvider = CartBloc();
 
   @override
   void initState() {
     super.initState();
-    getCartItems();
+    // getCartItems();
   }
 
   Future<void> getCartItems() async {
     final items = await NetworkClient().getCartItems();
-    cartProvider.addCartItems(items);
+    cartProvider.addCartItems([]);
   }
 
   Widget buildCartList(List<CartItem> cartItems) {

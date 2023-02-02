@@ -1,10 +1,14 @@
 import 'package:demo/utils/constants.dart';
-import 'package:demo/widgets/cart_counter.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {
+  final String title;
+  final Widget? trailing;
+
   const MyAppBar({
     Key? key,
+    required this.title,
+    this.trailing,
   }) : super(key: key);
 
   @override
@@ -13,8 +17,8 @@ class MyAppBar extends StatelessWidget {
       height: kMyAppBarHeight,
       margin: const EdgeInsets.symmetric(horizontal: 12),
       child: Stack(
-        children: const [
-          Align(
+        children: [
+          const Align(
             //  Alignment widget
             alignment: Alignment.centerLeft,
             child: BackButton(
@@ -24,18 +28,19 @@ class MyAppBar extends StatelessWidget {
           Center(
             // Alignment widget
             child: Text(
-              'My Cart',
-              style: TextStyle(
+              title,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: CartCounter(),
-          )
+          if (trailing != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: trailing,
+            )
         ],
       ),
     );

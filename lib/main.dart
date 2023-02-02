@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pages/cart.dart';
+import 'pages/shop.dart';
 
 void main() => runApp(const MyApp());
 
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Material App',
       debugShowCheckedModeBanner: false,
-      home: Cart(),
+      home: Shop(),
     );
   }
 }

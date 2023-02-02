@@ -1,5 +1,5 @@
 import 'package:demo/models/cart_item.dart';
-import 'package:demo/providers/cart_provider.dart';
+import 'package:demo/bloc/cart_bloc.dart';
 import 'package:flutter/material.dart';
 
 class CartCounter extends StatelessWidget {
@@ -24,7 +24,7 @@ class CartCounter extends StatelessWidget {
                 color: Colors.red,
                 child: Center(
                   child: StreamBuilder<List<CartItem>>(
-                      stream: CartProvider().stream,
+                      stream: CartBloc().stream,
                       builder: (context, snapshot) {
                         return FittedBox(
                           child: Text(

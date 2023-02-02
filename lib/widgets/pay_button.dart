@@ -1,5 +1,5 @@
 import 'package:demo/models/cart_item.dart';
-import 'package:demo/providers/cart_provider.dart';
+import 'package:demo/bloc/cart_bloc.dart';
 import 'package:flutter/material.dart';
 
 class PayButton extends StatelessWidget {
@@ -31,7 +31,7 @@ class PayButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               StreamBuilder<List<CartItem>>(
-                  stream: CartProvider().stream,
+                  stream: CartBloc().stream,
                   builder: (context, snapshot) {
                     final String value;
 
