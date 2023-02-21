@@ -1,3 +1,4 @@
+import 'package:demo/platform_test.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/shop.dart';
